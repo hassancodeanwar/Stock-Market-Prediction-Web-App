@@ -6,6 +6,10 @@ This Streamlit app allows users to predict stock prices for selected stocks (AAP
 
 Hassan Anwar
 
+## You Can Try it throughout this URL
+https://stock-market-prediction-web-app.streamlit.app/
+
+
 ## Requirements
 
 To run this app, you need to have the following Python packages installed. You can install them using the provided requirements file.
