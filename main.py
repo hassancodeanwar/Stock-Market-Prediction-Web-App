@@ -6,7 +6,7 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objects as go
 
-START = "2020-01-01"
+START = "2020-01-01"  # Adjusted to a more recent date to ensure data availability
 TODAY = date.today().strftime("%Y-%m-%d")
 
 st.title("Stock Prediction App")
@@ -24,15 +24,10 @@ def load_data(ticker):
         data = yf.download(ticker, START, TODAY)
         
         if data.empty:
-            st.warning(f"No data available for {ticker} in the selected date range.")
+            st.warning(f"No data available for {ticker} in the selected date range. Try selecting a different stock or adjusting the date range.")
             return pd.DataFrame()
         
         data.reset_index(inplace=True)  # Ensure 'Date' is a column
-        
-        if 'Date' not in data.columns:
-            st.error("Failed to retrieve valid stock data. 'Date' column is missing.")
-            return pd.DataFrame()
-        
         return data
     except Exception as e:
         st.error(f"An error occurred while fetching data: {e}")
@@ -51,8 +46,9 @@ st.write(data.tail())
 st.write("Columns in data:", data.columns)
 
 def plot_raw_data():
-    if 'Date' not in data.columns or 'Close' not in data.columns or 'Open' not in data.columns:
-        st.error("Required columns are missing in the data.")
+    required_columns = {'Date', 'Open', 'Close'}
+    if not required_columns.issubset(data.columns):
+        st.error(f"Missing required columns: {required_columns - set(data.columns)}")
         return
     
     fig = go.Figure()
