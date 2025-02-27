@@ -6,8 +6,8 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objects as go
 
-START = "2020-01-01"  # Adjusted to a more recent date to ensure data availability
-TODAY = date.today().strftime("%Y-%m-%d")
+START = "2015-01-01"  # Updated to start from 2015
+END = "2024-12-31"  # Explicitly setting end date to 2024
 
 st.title("Stock Prediction App")
 
@@ -21,7 +21,7 @@ period = n_years * 365
 def load_data(ticker):
     try:
         st.text(f"Fetching data for {ticker}...")
-        data = yf.download(ticker, START, TODAY)
+        data = yf.download(ticker, START, END)
         
         if data.empty:
             st.warning(f"No data available for {ticker} in the selected date range. Try selecting a different stock or adjusting the date range.")
